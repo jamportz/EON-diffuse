@@ -208,10 +208,10 @@ uniform float roughness;
 const float DENOM_TOLERANCE = 1.0e-7f;
 
 vec3 diffuse_brdf_evaluate(in vec3 wi_local, in vec3 wo_local,
-                           inout float pdf_wo_local)
+                           inout float pdf_wi_local)
 {
     if (wi_local.z < DENOM_TOLERANCE || wo_local.z < DENOM_TOLERANCE) return vec3(0.0f);
-    pdf_wo_local = pdf_EON(wi_local, wo_local, roughness);
+    pdf_wi_local = pdf_EON(wo_local, wi_local, roughness);
     return f_EON(albedo, roughness, wi_local, wo_local, true);
 }
 
