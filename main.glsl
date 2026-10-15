@@ -110,6 +110,8 @@ void ltc_coeffs(float mu, float r,
 vec4 cltc_sample(in vec3 wo_local, float r, float u1, float u2)
 {
     float a, b, c, d; ltc_coeffs(wo_local.z, r, a, b, c, d);   // coeffs of LTC $M$
+    // The weight divides by the analytic PDF, so use accurate cos() and sin() here. With an
+    // approximation the samples are not uniform on the disk, and the estimate is biased.
     float R = sqrt(u1); float phi = 2.0f * pi * u2;            // CLTC sampling
     float x = R * cos(phi); float y = R * sin(phi);            // CLTC sampling
     float vz = 1.0f / sqrt(d*d + 1.0f);                        // CLTC sampling factors
