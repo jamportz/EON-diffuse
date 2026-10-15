@@ -114,7 +114,10 @@ vec4 cltc_sample(in vec3 wo_local, float r, float u1, float u2)
     float x = R * cos(phi); float y = R * sin(phi);            // CLTC sampling
     float vz = 1.0f / sqrt(d*d + 1.0f);                        // CLTC sampling factors
     float s = 0.5f * (1.0f + vz);                              // CLTC sampling factors
-    x = -mix(sqrt(1.0f - y*y), x, s);                          // CLTC sampling
+    // Clip the lune on the side given by the sign of d. The fit gives d < 0, except within
+    // about 0.9 degrees of normal incidence (mu > 0.99987), where d is slightly positive.
+    float side = d < 0.0f ? -1.0f : 1.0f;                      // CLTC sampling
+    x = side * mix(sqrt(1.0f - y*y), x, s);                    // CLTC sampling
     vec3 wh = vec3(x, y, sqrt(max(1.0f - (x*x + y*y), 0.0f))); // $w_h$ sample via CLTC
     float pdf_wh = wh.z / (pi * s);                            // PDF of $w_h$ sample
     vec3 wi = vec3(a*wh.x + b*wh.z, c*wh.y, d*wh.x + wh.z);    // $M w_h$ (unnormalized)
