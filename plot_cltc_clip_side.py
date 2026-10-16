@@ -69,11 +69,11 @@ ellipse_neg = np.c_[-vz * np.cos(t), np.sin(t)]
 ax.add_patch(Polygon(np.r_[circle_pos, ellipse_neg[::-1]], closed=True, fc="#d6e6f8", ec="none",
                      label="valid: maps to wi.z > 0"))
 ax.add_patch(Polygon(np.r_[ellipse_neg, circle_neg[::-1]], closed=True, fc="#f4b6b0", ec="none",
-                     label="sampled by Listing 4 but wi.z < 0"))
+                     label="sampled by Listing 3 but wi.z < 0"))
 ax.add_patch(Polygon(np.r_[circle_pos, ellipse_pos[::-1]], closed=True, fc="#f9d59b", ec="none",
-                     label="valid but never sampled by Listing 4"))
+                     label="valid but never sampled by Listing 3"))
 ax.plot(*np.r_[circle_neg, ellipse_pos[::-1], circle_neg[:1]].T, color="#c0392b", lw=1.6,
-        label="region sampled by Listing 4")
+        label="region sampled by Listing 3")
 ax.plot(*np.r_[circle_pos, ellipse_neg[::-1], circle_pos[:1]].T, color="#1f6fd1", lw=1.6, ls="--",
         label="region sampled with the fix")
 ax.set_aspect("equal")
@@ -89,7 +89,7 @@ ax = axes[2]
 rng = np.random.default_rng(11)
 n, chunks = 20_000_000, 3
 bins = np.linspace(-0.003, 0.003, 25)
-for sign_aware, col, label in ((False, "#c0392b", "Listing 4"), (True, "#1f6fd1", "clip side from the sign of d")):
+for sign_aware, col, label in ((False, "#c0392b", "Listing 3"), (True, "#1f6fd1", "half ellipse where d x < 0")):
     counts = np.zeros(len(bins) - 1)
     below = 0
     for _ in range(chunks):
